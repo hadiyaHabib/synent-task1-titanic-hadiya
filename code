@@ -1,0 +1,40 @@
+# =========================
+# TASK 1 - DATA CLEANING
+# =========================
+
+import pandas as pd
+
+# Direct Dataset Link
+url = "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+
+# Load Dataset Directly
+df = pd.read_csv(url)
+
+print(df.head())
+
+# Missing Values
+print(df.isnull().sum())
+
+# Fill Missing Values
+df['Age'].fillna(df['Age'].median(), inplace=True)
+df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+
+# Drop Cabin Column
+df.drop('Cabin', axis=1, inplace=True)
+
+# Remove Duplicates
+df.drop_duplicates(inplace=True)
+
+# Rename Columns
+df.rename(columns={
+    'PassengerId':'Passenger_ID',
+    'Survived':'Survival_Status'
+}, inplace=True)
+
+# Convert Data Type
+df['Age'] = df['Age'].astype(int)
+
+# Save Clean Dataset
+df.to_csv('clean_titanic.csv', index=False)
+
+print("Data Cleaning Completed")
